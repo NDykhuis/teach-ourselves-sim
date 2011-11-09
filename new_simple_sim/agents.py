@@ -18,20 +18,40 @@ class agent(object):
 
         # In absence of a derived class, instantiate a random agent
         self.skill = random.random()   # 0 to 1, odds of succeeding when it participates
-        self.interest = 2*random.random()-1    # -1 to 1, intrinsic interest in the 
+        self.interest = 2*random.random()-1    # -1 to 1, intrinsic interest in the activity
 
-        self.weights = [0,0,0]
-        for i in (0,1,2):   # extrinsic, intrinsic, and social reward
-            self.weights[i] = random.random()
-        self.weights = [w / sum(self.weights) for w in self.weights]    # normalize
+        self.weights = [1,1,1]  # Weights all equal = no effect
+        # for i in (0,1,2):   # extrinsic, intrinsic, and social reward
+        #     self.weights[i] = random.random()
+        # self.weights = [w / sum(self.weights) for w in self.weights]    # normalize
         
         self.cfg = agentcfg()
 
-    def play(self):
+    def play(self, t, reward_func):
         cfg = self.cfg
-    
-        # Pick randomly
-        self.mymove = random.choice([True, False])
+        #external_reward = reward_func(t)
+        #expected_reward = external_reward * self.skill
+        external_reward = self.reward + agent.globalreward  #reward_func( self.reward + agent.globalreward )
+        expected_reward = external_reward*0.1*self.skill    #reward_func( external_reward ) * self.skill
+        #print external_reward, "*", self.skill, "=", expected_reward
+        social_influence = 0.0
+        # take out social influence, see if participation rapidly drops
+        #if t > 0: # determine neighbors' actions in previous round
+        #    for nbr in self.nbrs:
+        #        if nbr.mymove:
+        #            social_influence += 1.0
+        #        else:
+        #            social_influence -= 1.0
+
+        social_influence /= len(self.nbrs)
+        # social_influence now a value between -1 and 1. 1 iff all neighbors participated last round, -1 iff all neighbors didn't participate
+        #print social_influence, "+", self.interest, "+", expected_reward, "=", social_influence + self.interest + expected_reward
+
+        evaluation = self.weights[0]*expected_reward + self.weights[1]*self.interest + self.weights[2]*social_influence
+        if cfg.stochasticchoice:
+            self.mymove = sigmoid(evaluation,width=2) > random.random()
+        else:
+            self.mymove = evaluation > 0
         return self.mymove
         
     def postprocess(self, points):
@@ -50,8 +70,7 @@ class agent(object):
             nbrpart = sum(n.mymove for n in self.nbrs)  # num of friends participating
         
         self.lastmove = self.mymove
-        
-        
+
         
         
         
@@ -93,7 +112,15 @@ class agent(object):
         #print "hpay:",self.hpay," hpart:",self.hpart," hperf:",self.hperf," hoperf:",self.hoperf
         
         
-        
+
+import math
+
+# This is a sigmoid function, with a y range of (0,1), where sigmoid(width) = threshold
+def sigmoid(x, width=4, threshold=0.99, yrange=(0,1)):
+    s = math.log(1/threshold-1)/(-width)
+    return 1/(1+math.exp(-s*x))*(yrange[1]-yrange[0])-yrange[0]
+
+
         
 ### OTHER MODELS OF AGENT ###
         
@@ -150,4 +177,3 @@ class betaagent(agent):
             self.weights[i] = betarand(wmd[i],wb[i])
         self.weights[0]*=2
         self.weights = [w / sum(self.weights) for w in self.weights]    # normalize
-

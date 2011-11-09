@@ -1,0 +1,28 @@
+1  sim_2011-11-09_01:05:56 -- no learning, no external reward -- just based on
+     intrinsic interest and neighbors' actions. but there are weights
+2  sim_2011-11-09_01:15:33 -- no learning, no external reward, no weights.
+     participation is increased, but weights did not previously play into the
+     calculation. so why is participation higher? each student's network is now
+     different, since similarity is based on weights. each student's network is
+     now presumably larger, since weights are all in common
+3  sim_2011-11-09_01:23:15 -- external reward is the constant function 1. no
+     learning, no weights, so expected reward is just skill
+4  sim_2011-11-09_01:35:44 -- external reward is now a linear function from 0 to 1.
+     no learning, no weights. see a slight increase in participation, but not
+     much
+5  sim_2011-11-09_01:37:39 -- external reward now goes from 0 to 2. see same
+     increase around same reward level as last expr, and a much larger increase
+     later on as external reward dominates I and S, which range between -1 and 1
+6  sim_2011-11-09_01:49:05 -- logistic equation from .5 to 1. see same increase
+     in participation, but earlier. 
+7  sim_2011-11-09_01:53:53 -- this should be the same as expr 3. check? looks
+     like it. compare to expr 6: large participation at start, stays constant
+8  sim_2011-11-09_02:04:31 -- logistic from .5 to 2, large increase in
+     participation. see same final result as linear that ends at 2, just increases
+     earlier
+9  sim_2011-11-09_10:55:44 -- dramatic shift in reward from 0 to 1, then drop
+    it back down. social effects in place, so participation falls after reward is
+    dropped, but still much above levels before reward was raised
+10 sim_2011-11-09_12:10:03 -- same reward scheme as 9, but took out social
+    effects. Now, participation falls back to old levels after reward is
+    eliminated

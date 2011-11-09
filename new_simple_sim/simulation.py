@@ -81,8 +81,9 @@ class simulation:
         self.graphref = {}      # Used in drawothergraphs
 
         for t in range(cfg.nturns):
+            self.current_step = t
             for i in range(N):
-                agents[i].play()
+                agents[i].play(t, configuration.reward_func)
             for a in agents:
                 if a.mymove:
                     if random.random() < a.skill:   # They got it right!
@@ -99,6 +100,17 @@ class simulation:
                 a.postprocess(a.points)
             
             if cfg.verbose: print "  t:",t#,"  part:",part[t],"  correct:",corr[t]
+            
+            
+            # Reward manipulations:
+            if t == 0:
+                self.setreward(0)
+            if t == 100:
+                self.setreward(10)
+            if t == 150:
+                self.setreward(0)
+            
+            
             
             self.logdata(t)
             if not cfg.graph_only_at_end:
@@ -122,7 +134,7 @@ class simulation:
                         # this should pass a list of files up to the simulator, and the simulator can take care of zipping them.
         cfg = self.cfg
 
-        returnfiles = [os.path.basename(__file__), "agents.py", "agentcfg.py", "configuration.py", "recorder.py"]
+        returnfiles = ["simulation.py", "agents.py", "agentcfg.py", "configuration.py", "recorder.py"]
         
         # Simulation finished
         if cfg.outputagents:
@@ -215,7 +227,7 @@ class simulation:
                 G.add_edge(x,y,weight=random.random())#1-agents[x].difference(agents[y])**2)
 
         else:
-            G = nx.generators.random_graphs.watts_strogatz_graph(N,connections,0.25)
+            G = nx.generators.random_graphs.watts_strogatz_graph(N,cfg.connections,0.25)
             for (x,y) in G.edges():
                 G[x][y]['weight'] = random.random()
 
@@ -356,9 +368,9 @@ def smoothTriangle(data,degree,dropVals=False):
     to input length, but with copies of data at the flanking regions"""
     triangle=np.array(range(degree)+[degree]+range(degree)[::-1])+1
     smoothed=[]
-    for i in range(degree,len(data)-degree*2):
+    for i in xrange(degree,len(data)-degree*2):
             point=data[i:i+len(triangle)]*triangle
-            smoothed.append(sum(point)/sum(triangle))
+            smoothed.append(sum(point)*1.0/sum(triangle))
     if dropVals: return smoothed
     smoothed=[smoothed[0]]*(degree+degree/2)+smoothed
     while len(smoothed)<len(data):smoothed.append(smoothed[-1])

@@ -1,4 +1,5 @@
 from agents import agent
+import math
 
 class configuration:
     N = 30          # Number of agents
@@ -6,8 +7,8 @@ class configuration:
     conhigh = 5     # default 5
     conlow = 2      # default 1
     nturns = 200
-    reward = 20                 # nominally between 0 and 100
-    agent.globalreward = 20           
+    reward = 0                 # nominally between 0 and 100
+    agent.globalreward = 0           
 
     interactive = True          # Do we cmdpause for user input before and after sim?
     stepbystep = False          # Do we cmdpause after every time step?
@@ -20,7 +21,7 @@ class configuration:
     SOC_CON = 0                 # num of connections based on social weight
     SHUFFLE = 10                # number of edges to shuffle on the similarity graph
     
-    randseed = 1365
+    randseed = 13865
     
     agenttype = 'random'        # Also accepts 'high_low_mix', 'high_low_cross'
     
@@ -36,4 +37,13 @@ class configuration:
     outputdata = False              # Outputs all events in the simulation run 
     outputagents = False            # Outputs parameters of all the agents
     agentfile = 'agents_'+agenttype+str(randseed)+'.dat'
+
+    # @staticmethod
+    # def reward_func(n):
+    #     return 1
+
+    # We might want to move this kind of thing into agentcfg.py, and make it a property of the agents, rather than the simulation
+    @staticmethod
+    def reward_func(n):
+        return 2.0 / (1.0 + 3 * math.exp(-.02 * n)) # standard sigmoid, starts at .5 and approaches 2. reaches 1 at x = 22, so it's fast growing
 
