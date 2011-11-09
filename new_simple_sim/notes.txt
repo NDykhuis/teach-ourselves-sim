@@ -1,0 +1,27 @@
+Simulation workflow:
+
+Edit parameters in [file].py
+Run simulation with simulator.py
+ - configuration is in configuration.py
+Results will be put in a folder and zipped so we can run them again in the future  (to do)
+
+We should also create a tool that takes a tar file as an argument and re-runs a previous simulation.
+http://docs.python.org/library/tarfile.html
+
+
+
+APIs:
+
+class simulation:
+   __init__
+   setup          - creates agents and social network
+   run            - iterates through timesteps, calling play() on each agent, postprocess(), and gathering statistics
+   save_results   - saves graphs of the run and all python scripts in a tar  (should this be in simulator.py?)
+                  - this should pass a list of files up to the simulator, and the simulator can take care of zipping them.
+                  
+class agent:
+   __init__
+   play         - decide to participate or not (returns T/F)
+   postprocess  - receive reward (if any) and update accordingly
+   difference   - returns difference between 2 agents (for similarity estimation) (or should this be in simulation class?)
+   
