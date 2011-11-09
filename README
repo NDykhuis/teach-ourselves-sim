@@ -1,0 +1,32 @@
+To run:
+
+python simulator.py
+
+
+Files:
+
+simulator.py        - a wrapper which reads in the configuration and initializes the simulation
+simsocial_c.py      - The simulation controller. Initializes the simulation and runs it through the timesteps
+simsocial_crec.py   - This one records data during the simulation and outputs it to a file (for later processing by dataread.py)
+socagents_rb.py     - The agent class used by the simulator. This one needs some serious reworking.
+multisimulator.py   - Able to batch-run a bunch of simluations with different random seeds, to compare.
+dataread.py         - Reads in a data file from simsocial_crec.py, so we can process it and make inferences
+betarand.py         - Generates beta distributions. You choose the mode (highest point) and beta (tightness); it picks a number.
+smoothtriangle.py   - Data-smoothing library
+
+
+Notes:
+
+The simsocial and socagent files have some messy code because of the system to save and restore simulation configurations. Basically, the simulator can read in the configuration from a previous run, and set up all the variables to replicate it. This involves some weirdness with converting between dictionaries and class members. But it works: after every completed simulation run, it saves all the settings and pictures of the graphs, so we can run the exact same experiment again any time we'd like
+
+
+Current research focuses:
+1. Better agent model.   socagents_rb has horrible performance. We should get this working, and get the parameters set to give realistic behavior. We want the model to be as accurate and nuanced as possible, but we also need it to actually work.
+2. Data analysis.  Take the raw data dumped by simsocial_crec (or something like it), process it into some useful form (for example, calculate sliding-window average participation/performance over a few timesteps), and use these data to infer
+  a) The weight a given student places on external, internal, or social reward
+  b) The current amount of external, internal, or social reward a student is getting
+  c) How to help motivate this student to participate - what action would increase reward in any deficient categories?
+  
+  
+
+

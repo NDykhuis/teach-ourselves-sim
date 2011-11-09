@@ -1,0 +1,4 @@
+run in python, with a given mode (between 0 and 1) and tightness (between 1 and inf):
+
+  from betarand import *
+  plotbeta(*getbeta([mode], [tightness]))
