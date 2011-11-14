@@ -133,6 +133,8 @@ class simulation:
     def save_results(self): # saves graphs of the run and all python scripts in a tar  
                         # this should pass a list of files up to the simulator, and the simulator can take care of zipping them.
         cfg = self.cfg
+        if cfg.verbose:
+            print "saving results"
 
         returnfiles = ["simulation.py", "agents.py", "agentcfg.py", "configuration.py", "recorder.py"]
         

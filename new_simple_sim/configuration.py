@@ -2,7 +2,7 @@ from agents import agent
 import math
 
 class configuration:
-    N = 30          # Number of agents
+    N = 300          # Number of agents
     connections = 4
     conhigh = 5     # default 5
     conlow = 2      # default 1
@@ -16,7 +16,7 @@ class configuration:
 
     verbose = True
 
-    SIMILARITY_GRAPH = 1        # Add friends by similarity, or random small-world graph?
+    SIMILARITY_GRAPH = 0        # Add friends by similarity, or random small-world graph?
     RND_CON = 1                 # Random number of connections
     SOC_CON = 0                 # num of connections based on social weight
     SHUFFLE = 10                # number of edges to shuffle on the similarity graph

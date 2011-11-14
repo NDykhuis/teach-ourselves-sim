@@ -21,7 +21,6 @@ def run(saveresults, config=None):
     sim.run()
 
     if saveresults:     # Do not run this section on simulation replay
-
         # Save configuration
         if saveconfig:
             cfgfile = "sim_" + dt + ".cfg"
