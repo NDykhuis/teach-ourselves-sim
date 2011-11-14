@@ -1,2 +1,2 @@
 import simulator as sim
-sim.run(saveresults=False)
+sim.run(saveresults=True)

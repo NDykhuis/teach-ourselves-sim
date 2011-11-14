@@ -35,13 +35,12 @@ class agent(object):
         expected_reward = external_reward*0.1*self.skill    #reward_func( external_reward ) * self.skill
         #print external_reward, "*", self.skill, "=", expected_reward
         social_influence = 0.0
-        # take out social influence, see if participation rapidly drops
-        #if t > 0: # determine neighbors' actions in previous round
-        #    for nbr in self.nbrs:
-        #        if nbr.mymove:
-        #            social_influence += 1.0
-        #        else:
-        #            social_influence -= 1.0
+        if t > 0: # determine neighbors' actions in previous round
+            for nbr in self.nbrs:
+                if nbr.mymove:
+                    social_influence += 1.0
+                else:
+                    social_influence -= 1.0
 
         social_influence /= len(self.nbrs)
         # social_influence now a value between -1 and 1. 1 iff all neighbors participated last round, -1 iff all neighbors didn't participate

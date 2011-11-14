@@ -26,7 +26,7 @@ class configuration:
     agenttype = 'random'        # Also accepts 'high_low_mix', 'high_low_cross'
     
     # Key is what variable, value is what figure to plot it on
-    graph_on_figure = { 'participation':2, 'correct':2, 'interest':False, 'reward':False, 'cumulative_reward':False }  
+    graph_on_figure = { 'participation':2, 'correct':2, 'interest':False, 'reward':False, 'cumulative_reward':False, 'marginal_avg_performance':3 }
 
     graph_only_at_end = False         # Generate graphs only at the end of the sim
 

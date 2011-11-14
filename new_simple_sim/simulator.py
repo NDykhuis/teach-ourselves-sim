@@ -21,7 +21,6 @@ def run(saveresults, config=None):
     sim.run()
 
     if saveresults:     # Do not run this section on simulation replay
-
         # Save configuration
         if saveconfig:
             cfgfile = "sim_" + dt + ".cfg"
@@ -36,7 +35,7 @@ def run(saveresults, config=None):
 
         # Generate run.py
         runfile = open("run.py", "w")
-        runstr = "import "+os.path.basename(__file__)[0:-3]+" as sim\n"
+        runstr = "import "+os.path.basename(__file__).split('.')[0]+" as sim\n"
         runstr += "sim.run(saveresults=False)\n"
         runfile.write(runstr)
         runfile.close()
@@ -59,6 +58,13 @@ def run(saveresults, config=None):
         print "Zipped results to "+tarfilename
         
         # Remove all of the data files?
+
+        # Regenerate run.py
+        runfile = open("run.py", "w")
+        runstr = "import "+os.path.basename(__file__).split('.')[0]+" as sim\n"
+        runstr += "sim.run(saveresults=True)\n"
+        runfile.write(runstr)
+        runfile.close()
 
 if __name__ == '__main__':
     print "Running simulation"
