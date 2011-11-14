@@ -334,6 +334,7 @@ class simulation:
         self.rec.log('correct', correct)
         self.rec.log('reward', reward)
         self.rec.log('cumulative_reward', reward + self.rec.getlastrec('cumulative_reward'))
+        self.rec.log('marginal_avg_performance', float(correct) / part)
         
 
 
