@@ -26,6 +26,7 @@ class agent(object):
         # self.weights = [w / sum(self.weights) for w in self.weights]    # normalize
         
         self.cfg = agentcfg()
+        self.nbrs = []
 
     def play(self, t, reward_func):
         cfg = self.cfg
@@ -36,13 +37,17 @@ class agent(object):
         #print external_reward, "*", self.skill, "=", expected_reward
         social_influence = 0.0
         if t > 0: # determine neighbors' actions in previous round
-            for nbr in self.nbrs:
-                if nbr.mymove:
-                    social_influence += 1.0
-                else:
-                    social_influence -= 1.0
+            social_influence = sum(nbr.mymove*2-1 for nbr in self.nbrs)
+            if (len(self.nbrs)):
+                social_influence /= len(self.nbrs)
 
-        social_influence /= len(self.nbrs)
+#            for nbr in self.nbrs:
+#                if nbr.mymove:
+#                    social_influence += 1.0
+#                else:
+#                    social_influence -= 1.0
+
+#        social_influence /= len(self.nbrs)
         # social_influence now a value between -1 and 1. 1 iff all neighbors participated last round, -1 iff all neighbors didn't participate
         #print social_influence, "+", self.interest, "+", expected_reward, "=", social_influence + self.interest + expected_reward
 
@@ -51,6 +56,8 @@ class agent(object):
             self.mymove = sigmoid(evaluation,width=2) > random.random()
         else:
             self.mymove = evaluation > 0
+        if random.random() < .01:
+            self.mymove = not self.mymove
         return self.mymove
         
     def postprocess(self, points):

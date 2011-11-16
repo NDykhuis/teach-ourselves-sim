@@ -6,7 +6,7 @@ class configuration:
     connections = 4
     conhigh = 5     # default 5
     conlow = 2      # default 1
-    nturns = 200
+    nturns = 300
     reward = 0                 # nominally between 0 and 100
     agent.globalreward = 0           
 
@@ -16,12 +16,13 @@ class configuration:
 
     verbose = True
 
+    NO_GRAPH = 0  
     SIMILARITY_GRAPH = 1        # Add friends by similarity, or random small-world graph?
     RND_CON = 1                 # Random number of connections
     SOC_CON = 0                 # num of connections based on social weight
     SHUFFLE = 10                # number of edges to shuffle on the similarity graph
     
-    randseed = 13865
+    randseed = 16468
     
     agenttype = 'random'        # Also accepts 'high_low_mix', 'high_low_cross'
     

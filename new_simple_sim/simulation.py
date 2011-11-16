@@ -205,7 +205,9 @@ class simulation:
 
         # We're going to try to connect agents by similarity
 
-        if cfg.SIMILARITY_GRAPH:
+        if cfg.NO_GRAPH:
+            G.add_nodes_from(range(0,N))
+        elif cfg.SIMILARITY_GRAPH:
             if cfg.verbose: print "generating similarity connections"
             G.add_nodes_from(range(0,N))
             con = cfg.connections
@@ -334,7 +336,8 @@ class simulation:
         self.rec.log('correct', correct)
         self.rec.log('reward', reward)
         self.rec.log('cumulative_reward', reward + self.rec.getlastrec('cumulative_reward'))
-        self.rec.log('marginal_avg_performance', float(correct) / part)
+       # self.rec.log('marginal_avg_performance', float(correct) / part)
+        self.rec.log('marginal_avg_performance', float(correct) / part if part else 0)
         
 
 
